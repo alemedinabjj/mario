@@ -4,7 +4,6 @@ const gameOver = document.querySelector('.game-over')
 const buttonInit = document.querySelector('.init')
 const scoreBoard = document.querySelector('.score')
 
-
 let initialScore = 0
 
 const startGame = () => {
@@ -25,7 +24,8 @@ const restartGame = () => {
   buttonInit.style.display = 'block'
 
   scoreBoard.classList.remove('scoreShow')
-  scoreBoard.innerHTML = ' '
+  scoreBoard.innerHTML = ''
+  initialScore = 0
 }
 
 const jump = () => {
@@ -35,17 +35,24 @@ const jump = () => {
   }, 500)
 }
 
+
+
 const score = () => {
   initialScore
   setInterval(() => {
     const pipePos = pope.offsetLeft
-    if (pipePos <= 120 && pipePos >= 110 && jump){
-      scoreBoard.innerHTML = `Score: ${(initialScore += 1)}`
+    const marioPos = window.getComputedStyle(mario).bottom.replace('px', '')
+    if (pipePos <= 120 && pipePos > 105 && marioPos >= 120) {
+      scoreBoard.innerHTML = `Score: ${(initialScore ++)}`
+    }else {
+      scoreBoard.innerHTML = `Score: ${initialScore}`
     }
   }, 10)
 
   if(restartGame) {
     initialScore = 0
+    scoreBoard.innerHTML = `Score: ${initialScore}`
+    clearInterval(score)
   }
 }
 
